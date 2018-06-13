@@ -147,21 +147,20 @@ public class MapGraph {
 		//HashSet for the nodes that have been visited
 		HashSet<MapNode> visitedNodes = new HashSet<MapNode>(numberOfVertices);
 		//Queue of nodes that needs to be visited 
-		Queue<MapNode> nodesNeededToVisit = new ArrayDeque<MapNode>();
+		ArrayDeque<MapNode> nodesNeededToVisit = new ArrayDeque<MapNode>();
 		//Initialise a variable to keep track of current node we are at
 		MapNode currNode = null;
 		//Initialise a HashMap(parent map) to keep track where we have visited
 		HashMap<MapNode, MapNode> path = new HashMap<MapNode, MapNode>();
 		//Create a ArrayList of all the neighbours to currNode
 		List<MapNode> neighboursOfCurr = new ArrayList<MapNode>();
-		//First get the MapNode at position start and add it to the queue		
+		//MapNode at position start and add it to the queue		
 		nodesNeededToVisit.add(vertices.get(start));
 		visitedNodes.add(vertices.get(start));
 		while (nodesNeededToVisit.size() != 0) {
-			currNode = nodesNeededToVisit.peek();
-			nodesNeededToVisit.poll();
-			GeographicPoint next = currNode.getNodeAsGP();
-			nodeSearched.accept(next);
+			currNode = nodesNeededToVisit.pollFirst();
+			//GeographicPoint next = currNode.getNodeAsGP();
+			//nodeSearched.accept(next);
 			if(currNode.equals(vertices.get(goal))) {
 				break;
 			}
@@ -169,7 +168,7 @@ public class MapGraph {
 			for(int i = 0; i < neighboursOfCurr.size() ;i++) {
 				visitedNodes.add(neighboursOfCurr.get(i));
 				path.put(neighboursOfCurr.get(i), currNode);
-				nodesNeededToVisit.add(neighboursOfCurr.get(i));
+				nodesNeededToVisit.addLast(neighboursOfCurr.get(i));
 			}
 		}
 		ArrayList<MapNode> shortestPathAsMapNode = new ArrayList<MapNode>();
